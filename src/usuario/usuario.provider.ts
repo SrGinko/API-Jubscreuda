@@ -1,5 +1,5 @@
 import { Usuario } from "./usuario.dto"
-import { Injectable, BadRequestException, NotFoundException} from "@nestjs/common"
+import { Injectable, BadRequestException, NotFoundException, ConflictException} from "@nestjs/common"
 import { Prisma } from "@prisma/client"
 import { PrismaProvider } from "../db/prisma.provider"
 
@@ -21,6 +21,7 @@ export class UsuarioProvider {
 				id: id,
 			},
 		})
+
 		if (!usuario) {
 			throw new NotFoundException("Usuário não encontrado")
 		}
@@ -29,6 +30,13 @@ export class UsuarioProvider {
 	}
 
 	async Criar(usuario: Prisma.UsuarioCreateInput): Promise<Usuario> {
+		
+		const UsuarioExistente = await this.ObterPorId(usuario.id)
+		
+		if (UsuarioExistente) {
+			throw new ConflictException("Usuário já cadastrado")
+		}
+		
 		return this.prisma.usuario.create({
 			data: usuario,
 		})

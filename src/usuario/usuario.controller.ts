@@ -3,15 +3,16 @@ import { Usuario } from './usuario.dto';
 import { UsuarioProvider } from './usuario.provider';
 
 
+
 @Controller('usuario')
 export class UsuarioController {
     constructor(private readonly repo: UsuarioProvider) {}
-
+    
     @Get()
     async obterTodos(): Promise<Usuario[]> {
         return this.repo.obterTodas();
     }
-    
+
     @Get(':id')
     async obterPorId(@Param('id')id: string): Promise<Usuario | null> {
         return this.repo.ObterPorId(id);
