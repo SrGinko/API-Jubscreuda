@@ -16,13 +16,12 @@ datasource db {
 model Usuario{
   id String @id @unique
   username String
-  email String @unique
-  senha String @default("")
   foto  String
   nivel Int @default(1)
   xp Int @default(0)
   wallpaper Int
   quantidadeMensagens Int @default(0)
+  Descricao String @default("")
 
   @@map("Usuarios")
 }
