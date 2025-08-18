@@ -9,19 +9,39 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-model Usuario{
-  id String @id @unique
-  username String
-  foto  String
-  nivel Int @default(1)
-  xp Int @default(0)
-  wallpaper Int
-  quantidadeMensagens Int @default(0)
-  Descricao String @default("")
+
+model Usuario {
+  id                  String @id @unique
+  username            String
+  foto                String
+  nivel               Int    @default(1)
+  xp                  Int    @default(0)
+  wallpaper           Int
+  quantidadeMensagens Int    @default(0)
+  Descricao           String @default("")
+  heroi               Heroi?
 
   @@map("Usuarios")
+}
+
+model Heroi {
+  id         String   @id @default(cuid())
+  nome       String
+  hp         Int      @default(100)
+  attack     Int      @default(10)
+  defense    Int      @default(5)
+  level      Int      @default(1)
+  xp         Int      @default(0)
+  inventario Json     @default("[]")
+  creatAt    DateTime @default(now())
+  update     DateTime @updatedAt
+
+  userID String  @unique
+  user   Usuario @relation(fields: [userID], references: [id])
+
+  @@map("Herois")
 }

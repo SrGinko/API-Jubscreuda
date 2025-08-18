@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { Usuario } from './usuario.dto';
 import { UsuarioProvider } from './usuario.provider';
+import { APIKey } from '../guards/APIKey';
 
-
-
+@UseGuards(APIKey)
 @Controller('usuario')
 export class UsuarioController {
     constructor(private readonly repo: UsuarioProvider) {}
