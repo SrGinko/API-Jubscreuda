@@ -1,11 +1,11 @@
 import { Usuario } from "./usuario.dto"
-import { Injectable, BadRequestException, NotFoundException, ConflictException} from "@nestjs/common"
+import { Injectable, BadRequestException, NotFoundException, ConflictException } from "@nestjs/common"
 import { Prisma } from "@prisma/client"
 import { PrismaProvider } from "../db/prisma.provider"
 
 @Injectable()
 export class UsuarioProvider {
-	constructor(private readonly prisma: PrismaProvider) {}
+	constructor(private readonly prisma: PrismaProvider) { }
 
 	async obterTodas(): Promise<Usuario[]> {
 		return this.prisma.usuario.findMany()
@@ -20,23 +20,24 @@ export class UsuarioProvider {
 			where: {
 				id: id,
 			},
+			include: { heroi: true }
 		})
 
 		if (!usuario) {
 			throw new NotFoundException("Usuário não encontrado")
 		}
 
-        return usuario
+		return usuario
 	}
 
 	async Criar(usuario: Prisma.UsuarioCreateInput): Promise<Usuario> {
-		
+
 		const UsuarioExistente = await this.ObterPorId(usuario.id)
-		
+
 		if (UsuarioExistente) {
 			throw new ConflictException("Usuário já cadastrado")
 		}
-		
+
 		return this.prisma.usuario.create({
 			data: usuario,
 		})

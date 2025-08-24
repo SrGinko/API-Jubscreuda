@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaProvider } from '../db/prisma.provider';
-import { Prisma } from "@prisma/client"
+import { Heroi, Prisma } from "@prisma/client"
 import { Heroes } from './heroes.dto';
 
 @Injectable()
@@ -11,23 +11,30 @@ export class HeroesProvider {
         return this.prisma.heroi.findMany()
     }
 
-    async obterUnico(userID: string): Promise<Heroes | null> {
+    async obterUnico(userID: string): Promise<Heroi | null> {
 
         if (!userID) {
             throw new BadRequestException("ID não informado")
         }
 
-        const herois = await this.prisma.heroi.findUnique({
-            where: {
-                userID: userID,
+        const heroi = await this.prisma.heroi.findUnique({
+            where: { userID },
+            include: {
+                inventario: {
+                    include: {
+                        itens: {
+                            include: { item: true }
+                        }
+                    }
+                }
             }
-        })
+        });
 
-        if (!herois) {
+        if (!heroi) {
             throw new BadRequestException("Heroi não encontrado")
         }
 
-        return herois
+        return heroi;
     }
 
     async Criar(heroi: Heroes) {
@@ -49,11 +56,21 @@ export class HeroesProvider {
         return this.prisma.heroi.create({
             data: {
                 nome: heroi.nome,
+                inventario: {
+                    create: {
+                        itens: {
+                            create: [{
+                                quantidade: 1,
+                                item: { connect: { id: 1 } }
+                            }]
+                        }
+                    }
+                },
                 user: {
                     connect: {
                         id: heroi.userID,
                     }
-                }
+                },
             },
         })
     }
@@ -72,6 +89,35 @@ export class HeroesProvider {
             where: {
                 id: id,
             },
+        })
+    }
+
+    async adicionarItem(heroiID: string, itemID: number, quantidade = 1) {
+        const inventario = await this.prisma.inventario.findUnique({
+            where: { heroiID: heroiID }
+        })
+
+        if (!inventario) {
+            throw new Error("Inventario não encontrado para esse herói")
+        }
+
+        return await this.prisma.itemInventario.upsert({
+            where: {
+                inventarioId_itemID: {
+                    inventarioId: inventario.id,
+                    itemID: itemID
+                }
+            },
+            create: {
+                quantidade,
+                inventario: { connect: { id: inventario.id } },
+                item: { connect: { id: itemID } }
+            },
+            update: {
+                quantidade: {
+                    increment: quantidade
+                }
+            }
         })
     }
 }

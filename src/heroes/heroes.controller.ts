@@ -32,4 +32,9 @@ export class HeroesController {
         return this.repo.deletarHeroi(id);
     }
 
+    @Post(':heroiID/inventario')
+    async adicionarItem(@Param('heroiID') heroiID: string, @Body('itemID') itemID: number, @Body('quantidade') quantidade: number): Promise<any> {
+        return this.repo.adicionarItem(heroiID, itemID, quantidade);
+    }
+
 }
