@@ -32,7 +32,11 @@ export class UsuarioProvider {
 
 	async Criar(usuario: Prisma.UsuarioCreateInput): Promise<Usuario> {
 
-		const UsuarioExistente = await this.ObterPorId(usuario.id)
+		const UsuarioExistente = await this.prisma.usuario.findUnique({
+			where: {
+				id: usuario.id
+			}
+		})
 
 		if (UsuarioExistente) {
 			throw new ConflictException("Usuário já cadastrado")

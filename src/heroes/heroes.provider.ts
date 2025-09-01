@@ -117,7 +117,57 @@ export class HeroesProvider {
                 quantidade: {
                     increment: quantidade
                 }
+            },
+        })
+    }
+
+    async removerItem(heroiID: string, itemID: number, quantidade = 1) {
+        const inventario = await this.prisma.inventario.findUnique({
+            where: { heroiID: heroiID }
+        })
+
+        if (!inventario) {
+            throw new Error("Inventário não encontrado para esse herói")
+        }
+
+        const itemInventario = await this.prisma.itemInventario.findUnique({
+            where: {
+                inventarioId_itemID: {
+                    inventarioId: inventario.id,
+                    itemID: itemID
+                }
             }
         })
+
+        if (!itemInventario) {
+            throw new Error("Item não encontrado no inventário")
+        }
+
+        if (itemInventario.quantidade > quantidade) {
+            
+            return await this.prisma.itemInventario.update({
+                where: {
+                    inventarioId_itemID: {
+                        inventarioId: inventario.id,
+                        itemID: itemID
+                    }
+                },
+                data: {
+                    quantidade: {
+                        decrement: quantidade
+                    }
+                }
+            })
+        } else {
+
+            return await this.prisma.itemInventario.delete({
+                where: {
+                    inventarioId_itemID: {
+                        inventarioId: inventario.id,
+                        itemID: itemID
+                    }
+                }
+            })
+        }
     }
 }

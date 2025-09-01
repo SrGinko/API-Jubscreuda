@@ -17,6 +17,7 @@ export class HeroesController {
     async obterPorId(@Param('id') id: string): Promise<Heroes | null> {
         return this.repo.obterUnico(id)
     }
+    
     @Post()
     async Criar(@Body() heroi: Heroes): Promise<Heroes> {
         return this.repo.Criar(heroi);
@@ -32,9 +33,14 @@ export class HeroesController {
         return this.repo.deletarHeroi(id);
     }
 
-    @Post(':heroiID/inventario')
+    @Patch(':heroiID/inventario/adicionar')
     async adicionarItem(@Param('heroiID') heroiID: string, @Body('itemID') itemID: number, @Body('quantidade') quantidade: number): Promise<any> {
         return this.repo.adicionarItem(heroiID, itemID, quantidade);
+    }
+
+    @Patch(':heroiID/inventario/remover')
+    async removerItem(@Param('heroiID') heroiID: string, @Body('itemID') itemID: number, @Body('quantidade') quantidade: number): Promise<any> {
+        return this.repo.removerItem(heroiID, itemID, quantidade);
     }
 
 }
