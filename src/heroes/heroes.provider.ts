@@ -78,7 +78,7 @@ export class HeroesProvider {
     async updateHeroi(id: string, heroi: Prisma.HeroiUpdateInput): Promise<Heroes> {
         return this.prisma.heroi.update({
             where: {
-                id: id,
+                userID: id,
             },
             data: heroi,
         })
@@ -87,7 +87,7 @@ export class HeroesProvider {
     async deletarHeroi(id: string): Promise<Heroes> {
         return this.prisma.heroi.delete({
             where: {
-                id: id,
+                userID: id,
             },
         })
     }
@@ -143,7 +143,7 @@ export class HeroesProvider {
             throw new Error("Item não encontrado no inventário")
         }
 
-        if (itemInventario.quantidade > quantidade) {
+        if (itemInventario.quantidade >= quantidade) {
             
             return await this.prisma.itemInventario.update({
                 where: {

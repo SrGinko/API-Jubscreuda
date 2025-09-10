@@ -4,7 +4,7 @@ import { Item, Prisma } from '@prisma/client';
 
 @Injectable()
 export class ItemProvider {
-    constructor(private prisma: PrismaProvider){}
+    constructor(private prisma: PrismaProvider) { }
 
     async obterTodos() {
         return this.prisma.item.findMany();
@@ -12,7 +12,9 @@ export class ItemProvider {
 
     async obterUnico(id: number) {
         return this.prisma.item.findUnique({
-            where: { id },
+            where: {
+                id: Number(id)
+            },
         });
     }
 
@@ -24,14 +26,18 @@ export class ItemProvider {
 
     async Atualizar(id: number, item: Prisma.ItemUpdateInput): Promise<Item> {
         return this.prisma.item.update({
-            where: { id },
+            where: {
+                id: id
+            },
             data: item,
         });
     }
 
     async Excluir(id: number): Promise<Item> {
         return this.prisma.item.delete({
-            where: { id },
+            where: {
+                id: id
+            },
         });
     }
 }
