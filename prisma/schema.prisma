@@ -102,6 +102,18 @@ model Item {
   @@map("Items")
 }
 
+model Inimigo {
+  id   Int    @id @default(autoincrement())
+  nome String @unique
+  vida Int
+  nivel Int
+  ataque Int
+  defesa Int
+  imagem String?
+
+  @@map("Inimigos")
+}
+
 enum ItemType {
   ARMADURA
   CALCA
