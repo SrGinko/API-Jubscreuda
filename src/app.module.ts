@@ -5,6 +5,7 @@ import { HeroesModule } from './heroes/heroes.module';
 import { ConfigModule } from '@nestjs/config';
 import { InventarioModule } from './inventario/inventario.module';
 import { ItemModule } from './item/item.module';
+import { InimigoModule } from './inimigo/inimigo.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ItemModule } from './item/item.module';
     ConfigModule.forRoot({ isGlobal: true }),
     InventarioModule,
     ItemModule,
+    InimigoModule,
   ],
 })
 export class AppModule { }
