@@ -29,19 +29,102 @@ model Usuario {
 }
 
 model Heroi {
-  id         String   @id @default(cuid())
+  id         String      @id @default(cuid())
   nome       String
-  hp         Int      @default(100)
-  attack     Int      @default(10)
-  defense    Int      @default(5)
-  level      Int      @default(1)
-  xp         Int      @default(0)
-  inventario Json     @default("[]")
-  creatAt    DateTime @default(now())
-  update     DateTime @updatedAt
+  hp         Int         @default(100)
+  attack     Int         @default(10)
+  defense    Int         @default(5)
+  level      Int         @default(1)
+  xp         Int         @default(0)
+  moeda      Int         @default(200)
+  inventario Inventario?
+
+  armaID Int?
+  aram   Item?   @relation("ArmaEquipada", fields: [armaID], references: [id])
+
+  armaduraID Int?
+  armadura   Item?   @relation("AramaduraEquipada", fields: [armaduraID], references: [id])
+
+  calcaID Int?
+  calca   Item?   @relation("CalcaEquipada", fields: [calcaID], references: [id])
+
+  creatAt DateTime @default(now())
+  update  DateTime @updatedAt
 
   userID String  @unique
   user   Usuario @relation(fields: [userID], references: [id])
 
   @@map("Herois")
+}
+
+model Inventario {
+  id      String @id @default(cuid())
+  heroiID String @unique
+  heroi   Heroi  @relation(fields: [heroiID], references: [id])
+
+  itens ItemInventario[]
+
+  @@map("Inventarios")
+}
+
+model ItemInventario {
+  id         String @id @default(cuid())
+  quantidade Int    @default(1)
+
+  inventarioId String
+  inventario   Inventario @relation(fields: [inventarioId], references: [id])
+
+  itemID Int
+  item   Item   @relation(fields: [itemID], references: [id])
+
+  @@unique([inventarioId, itemID]) // <- garante que um inventário só pode ter 1 do mesmo item
+  @@map("ItemInventarios")
+}
+
+model Item {
+  id        Int   @id @default(autoincrement())
+  nome      String   @unique
+  descricao String
+  raridade  Raridade
+  tipo      ItemType
+  preco     Int
+  ataque    Int?
+  defesa    Int?
+  heal      Int?
+  imagem    String?
+
+  armaEquipada     Heroi[] @relation("ArmaEquipada")
+  armaduraEquipada Heroi[] @relation("AramaduraEquipada")
+  calcaEquipada    Heroi[] @relation("CalcaEquipada")
+
+  itemInventario ItemInventario[]
+
+  @@map("Items")
+}
+
+model Inimigo {
+  id   Int    @id @default(autoincrement())
+  nome String @unique
+  vida Int
+  nivel Int
+  ataque Int
+  defesa Int
+  imagem String?
+
+  @@map("Inimigos")
+}
+
+enum ItemType {
+  ARMADURA
+  CALCA
+  ARMA
+  CONSUMIVEL
+  OUTRO
+}
+
+enum Raridade {
+  COMUM
+  RARA
+  EPICA
+  LENDARIA
 }

@@ -32,5 +32,4 @@ export class UsuarioController {
     async Deletar(@Param('id') id: string): Promise<Usuario> {
         return this.repo.Deletar(id);
     }
-
 }
