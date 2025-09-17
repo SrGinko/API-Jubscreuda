@@ -13,7 +13,7 @@ export class ItemProvider {
     async obterUnico(id: number) {
         return this.prisma.item.findUnique({
             where: {
-                id: Number(id)
+                id: id
             },
         });
     }
