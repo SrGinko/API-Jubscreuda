@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { ItemProvider } from './item.provider';
 import { Item } from '@prisma/client';
 import { APIKey } from '../guards/APIKey';
@@ -15,7 +15,7 @@ export class ItemController {
     }
 
     @Get(':id')
-    async obterUnico(@Param('id') id: number) {
+    async obterUnico(@Param('id', ParseIntPipe) id: number) {
         return this.repo.obterUnico(id);
     }
 
