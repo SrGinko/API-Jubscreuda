@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, ParseIntPipe} from '@nestjs/common';
-=======
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, ParseIntPipe } from '@nestjs/common';
->>>>>>> 4140f15 (Add: imagens para os intens)
 import { InimigoProvider } from './inimigo.provider';
 import { APIKey } from  '../guards/APIKey';
 import { Inimigo } from '@prisma/client';

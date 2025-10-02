@@ -4,7 +4,7 @@ import { Heroes } from './heroes.dto';
 import { APIKey } from '../guards/APIKey';
 
 @UseGuards(APIKey)
-@Controller('heroes')
+@Controller('heroi')
 export class HeroesController {
     constructor(private readonly repo: HeroesProvider) { }
     
