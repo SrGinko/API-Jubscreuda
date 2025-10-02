@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, ParseIntPipe} from '@nestjs/common';
 import { InimigoProvider } from './inimigo.provider';
 import { APIKey } from  '../guards/APIKey';
 import { Inimigo } from '@prisma/client';
@@ -14,7 +14,7 @@ export class InimigoController {
     }
 
     @Get(':id')
-    async obterUnico(@Param('id') id: number){
+    async obterUnico(@Param('id', ParseIntPipe) id: number){
         return this.inimigo.obterUnico(id)
     }
 

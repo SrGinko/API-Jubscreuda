@@ -59,10 +59,16 @@ export class HeroesProvider {
                 inventario: {
                     create: {
                         itens: {
-                            create: [{
-                                quantidade: 1,
-                                item: { connect: { id: 1 } }
-                            }]
+                            create: [
+                                {
+                                    quantidade: 1,
+                                    item: { connect: { id: 1 } }
+                                },
+                                {
+                                    quantidade: 3,
+                                    item: {connect: { id: 2 }}
+                                }
+                            ]
                         }
                     }
                 },
@@ -144,7 +150,7 @@ export class HeroesProvider {
         }
 
         if (itemInventario.quantidade >= quantidade) {
-            
+
             return await this.prisma.itemInventario.update({
                 where: {
                     inventarioId_itemID: {
