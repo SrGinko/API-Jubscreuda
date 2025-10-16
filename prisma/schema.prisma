@@ -40,13 +40,13 @@ model Heroi {
   inventario Inventario?
 
   armaID Int?
-  aram   Item?   @relation("ArmaEquipada", fields: [armaID], references: [id])
+  aram   Item? @relation("ArmaEquipada", fields: [armaID], references: [id])
 
   armaduraID Int?
-  armadura   Item?   @relation("AramaduraEquipada", fields: [armaduraID], references: [id])
+  armadura   Item? @relation("AramaduraEquipada", fields: [armaduraID], references: [id])
 
   calcaID Int?
-  calca   Item?   @relation("CalcaEquipada", fields: [calcaID], references: [id])
+  calca   Item? @relation("CalcaEquipada", fields: [calcaID], references: [id])
 
   creatAt DateTime @default(now())
   update  DateTime @updatedAt
@@ -60,7 +60,7 @@ model Heroi {
 model Inventario {
   id      String @id @default(cuid())
   heroiID String @unique
-  heroi   Heroi  @relation(fields: [heroiID], references: [id])
+  heroi   Heroi  @relation(fields: [heroiID], references: [id], onDelete: Cascade)
 
   itens ItemInventario[]
 
@@ -72,17 +72,17 @@ model ItemInventario {
   quantidade Int    @default(1)
 
   inventarioId String
-  inventario   Inventario @relation(fields: [inventarioId], references: [id])
+  inventario   Inventario @relation(fields: [inventarioId], references: [id] , onDelete: Cascade)
 
   itemID Int
-  item   Item   @relation(fields: [itemID], references: [id])
+  item   Item @relation(fields: [itemID], references: [id])
 
-  @@unique([inventarioId, itemID]) // <- garante que um inventário só pode ter 1 do mesmo item
+  @@unique([inventarioId, itemID])
   @@map("ItemInventarios")
 }
 
 model Item {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   nome      String   @unique
   descricao String
   raridade  Raridade
@@ -103,15 +103,59 @@ model Item {
 }
 
 model Inimigo {
-  id   Int    @id @default(autoincrement())
-  nome String @unique
-  vida Int
-  nivel Int
+  id     Int     @id @default(autoincrement())
+  nome   String  @unique
+  vida   Int
+  nivel  Int
   ataque Int
   defesa Int
   imagem String?
 
   @@map("Inimigos")
+}
+
+model Canal {
+  id     Int    @id @default(autoincrement())
+  nome   String
+  url    String
+  capaUrl String?
+
+  @@map("Canais")
+}
+
+model Serie{
+  id Int @id @default(autoincrement())
+  titulo String @unique
+  descricao String?
+  capaUrl String?
+  criadoEm DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  temporadas Temporada[]
+
+  
+  @@map("Series")
+}
+
+model Temporada{
+  id String @id @default(cuid())
+  numero Int
+  serieId Int
+
+  serie Serie @relation(fields: [serieId], references: [id], onDelete: Cascade )
+  episodios Episodio[]
+
+  @@map("Temporadas")
+}
+
+model Episodio{
+  id Int @id @default(autoincrement())
+  titulo String
+  numero Int
+  capaUrl String
+  temporadaId String
+
+  temporada Temporada @relation(fields: [temporadaId], references: [id], onDelete: Cascade)
 }
 
 enum ItemType {
