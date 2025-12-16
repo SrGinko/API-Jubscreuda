@@ -1,4 +1,4 @@
-# 🚀 Minha API com NestJS + Supabase
+# 🚀 API Jubscreuda com NestJS + Supabase
 
 Bem-vindo à API desenvolvida com [NestJS](https://nestjs.com/) e [Supabase](https://supabase.io/) — uma stack moderna, escalável e pronta pra produção!
 
