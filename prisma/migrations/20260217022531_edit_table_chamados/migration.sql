@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Chamados" ALTER COLUMN "creatAt" DROP NOT NULL,
+ALTER COLUMN "update" DROP NOT NULL;
