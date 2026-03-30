@@ -6,6 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 import { InventarioModule } from './inventario/inventario.module';
 import { ItemModule } from './item/item.module';
 import { InimigoModule } from './inimigo/inimigo.module';
+import { CanaisModule } from './canais/canais.module';
+import { BaseCanaisModule } from './canais/baseCanais.module';
+import { ChamadosModule } from './chamadoWb/chamado.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { InimigoModule } from './inimigo/inimigo.module';
     InventarioModule,
     ItemModule,
     InimigoModule,
+    CanaisModule,
+    BaseCanaisModule,
+    ChamadosModule
   ],
 })
 export class AppModule { }
