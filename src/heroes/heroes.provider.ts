@@ -66,7 +66,7 @@ export class HeroesProvider {
                                 },
                                 {
                                     quantidade: 3,
-                                    item: {connect: { id: 2 }}
+                                    item: { connect: { id: 2 } }
                                 }
                             ]
                         }
@@ -149,23 +149,10 @@ export class HeroesProvider {
             throw new Error("Item não encontrado no inventário")
         }
 
-        if (itemInventario.quantidade >= quantidade) {
+        const quantidadeAtual = Number(itemInventario.quantidade);
+        const quantidadeFinal = quantidadeAtual - quantidade;
 
-            return await this.prisma.itemInventario.update({
-                where: {
-                    inventarioId_itemID: {
-                        inventarioId: inventario.id,
-                        itemID: itemID
-                    }
-                },
-                data: {
-                    quantidade: {
-                        decrement: quantidade
-                    }
-                }
-            })
-        } else {
-
+        if (quantidadeFinal <= 0) {
             return await this.prisma.itemInventario.delete({
                 where: {
                     inventarioId_itemID: {
@@ -174,6 +161,20 @@ export class HeroesProvider {
                     }
                 }
             })
+
         }
+
+        return await this.prisma.itemInventario.update({
+            where: {
+                inventarioId_itemID: {
+                    inventarioId: inventario.id,
+                    itemID: itemID
+                }
+            },
+            data: {
+                quantidade: quantidadeFinal
+            }
+
+        })
     }
 }
