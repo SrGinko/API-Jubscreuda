@@ -131,10 +131,7 @@ model BaseCanalUrl {
 }
 
 model Serie {
-  id           Int      @id @default(autoincrement())
-  titulo       String   @unique
-  descricao    String?
-  capaUrl      String?
+  id           Int      @id 
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 
@@ -146,7 +143,7 @@ model Serie {
 model Temporada {
   id      String @id @default(cuid())
   numero  Int
-  serieId Int
+  serieId Int @unique
 
   serie     Serie      @relation(fields: [serieId], references: [id], onDelete: Cascade)
   episodios Episodio[]
@@ -155,13 +152,14 @@ model Temporada {
 }
 
 model Episodio {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(cuid())
   titulo      String
   numero      Int
-  capaUrl     String
+  capaUrl     String?
   temporadaId String
 
   temporada Temporada @relation(fields: [temporadaId], references: [id], onDelete: Cascade)
+  @@map("Episodios")
 }
 
 model Chamados {
