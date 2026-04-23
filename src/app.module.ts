@@ -9,6 +9,7 @@ import { InimigoModule } from './inimigo/inimigo.module';
 import { CanaisModule } from './canais/canais.module';
 import { BaseCanaisModule } from './canais/baseCanais.module';
 import { ChamadosModule } from './chamadoWb/chamado.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { ChamadosModule } from './chamadoWb/chamado.module';
     InimigoModule,
     CanaisModule,
     BaseCanaisModule,
-    ChamadosModule
+    ChamadosModule,
+    AuthModule
   ],
 })
 export class AppModule { }
