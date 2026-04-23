@@ -23,6 +23,11 @@ export class ChamadosController {
         return this.chamados.Criar(chamado as any)
     }
 
+    @Post('many')
+    async CreateMany(@Body() chamados: Chamado[]): Promise<any> {
+        return this.chamados.CreateMany(chamados as any)
+    }
+
     @Delete(':id')
     async Deletar(@Param('id', ParseIntPipe) id: number){
         return this.chamados.Delete(id)
