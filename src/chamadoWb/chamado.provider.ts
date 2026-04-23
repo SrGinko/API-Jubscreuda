@@ -41,7 +41,7 @@ export class ChamadosService {
     }
 
     async Atualizar(id: number, chamado: Chamado) {
-        
+
         const chamados = this.prisma.chamados.update({
             where: {
                 id: id
@@ -71,6 +71,20 @@ export class ChamadosService {
 
         this.chamadoGatway.emitDeleted(chamados)
 
-        return {ok:true}
+        return { ok: true }
+    }
+
+    async CreateMany(chamados: Chamados[]) {
+        const createdChamados = await this.prisma.chamados.createMany({
+            data: chamados.map(chamado => ({
+                ...chamado,
+                classificacao: chamado.classificacao as any
+            }))
+        })
+
+        this.chamadoGatway.emitCreated(chamados)
+        
+        return createdChamados
+
     }
 }
