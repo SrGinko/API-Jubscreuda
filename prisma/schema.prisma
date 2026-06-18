@@ -131,7 +131,10 @@ model BaseCanalUrl {
 }
 
 model Serie {
-  id           Int      @id 
+  id           Int      @id
+  capaUrl      String?
+  titulo       String
+  baseUrl      String
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 
@@ -171,6 +174,21 @@ model Chamados {
   proxEscalonamento DateTime?
   creatAt DateTime? @default(now())
   update DateTime? @updatedAt
+
+  @@map("Chamados")
+}
+
+model Projetos{
+  id Int @id
+  nome String
+  url String
+  descricao String
+  emProgresso Boolean @default(true)
+  imagens String[]
+  dataCriacao DateTime? @default(now())
+  dataAtualizacao DateTime? @updatedAt
+
+  @@map("Projetos")
 }
 
 enum ItemType {
