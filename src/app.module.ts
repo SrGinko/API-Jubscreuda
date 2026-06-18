@@ -10,6 +10,7 @@ import { CanaisModule } from './canais/canais.module';
 import { BaseCanaisModule } from './canais/baseCanais.module';
 import { ChamadosModule } from './chamadoWb/chamado.module';
 import { AuthModule } from './auth/auth.module';
+import { ProjetosModule } from './projetos/projetos.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { AuthModule } from './auth/auth.module';
     CanaisModule,
     BaseCanaisModule,
     ChamadosModule,
-    AuthModule
+    AuthModule,
+    ProjetosModule
   ],
 })
 export class AppModule { }
