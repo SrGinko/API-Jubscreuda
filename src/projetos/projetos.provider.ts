@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { Projetos } from "@prisma/client";
 import { PrismaProvider } from "../db/prisma.provider";
+import { Tecnologia } from '../projetos/projetos.dto';;
 
 @Injectable()
 export class ProjetcProvider {
@@ -10,7 +11,11 @@ export class ProjetcProvider {
         return this.prisma.projetos.findMany({
             include: {
                 imagens: true,
-                tecnologia: true
+                tecnologia: {
+                    include: {
+                        tecnologia: true
+                    }
+                }
             }
         })
     }
@@ -22,7 +27,11 @@ export class ProjetcProvider {
             },
             include: {
                 imagens: true,
-                tecnologia: true
+                tecnologia: {
+                    include: {
+                        tecnologia: true
+                    }
+                }
             }
         })
 
