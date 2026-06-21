@@ -146,7 +146,7 @@ model Serie {
 model Temporada {
   id      String @id @default(cuid())
   numero  Int
-  serieId Int @unique
+  serieId Int    @unique
 
   serie     Serie      @relation(fields: [serieId], references: [id], onDelete: Cascade)
   episodios Episodio[]
@@ -155,40 +155,76 @@ model Temporada {
 }
 
 model Episodio {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   titulo      String
   numero      Int
   capaUrl     String?
   temporadaId String
 
   temporada Temporada @relation(fields: [temporadaId], references: [id], onDelete: Cascade)
+
   @@map("Episodios")
 }
 
 model Chamados {
-  id Int @id
-  titulo String
-  descricao String
-  inicioEvento DateTime
-  classificacao Classificacao
+  id                Int           @id
+  titulo            String
+  descricao         String
+  inicioEvento      DateTime
+  classificacao     Classificacao
   proxEscalonamento DateTime?
-  creatAt DateTime? @default(now())
-  update DateTime? @updatedAt
+  creatAt           DateTime?     @default(now())
+  update            DateTime?     @updatedAt
 
   @@map("Chamados")
 }
 
-model Projetos{
-  id Int @id
-  nome String
-  url String
-  descricao String
-  emProgresso Boolean @default(true)
-  imagens String[]
-  dataCriacao DateTime? @default(now())
-  dataAtualizacao DateTime? @updatedAt
+model Projetos {
+  id              Int                   @id @default(autoincrement())
+  nome            String
+  url             String
+  descricao       String
+  emProgresso     Boolean               @default(true)
+  imagens         ImagensProjetos[]
+  tecnologia      ProjetosTecnologias[]
+  dataCriacao     DateTime?             @default(now())
+  dataAtualizacao DateTime?             @updatedAt
 
   @@map("Projetos")
+}
+
+model ImagensProjetos {
+  id         Int    @id @default(autoincrement())
+  url        String
+  descricao  String
+  nomeImagem String
+  projetoId  Int
+
+  projeto Projetos @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+
+  @@map("ImagensProjetos")
+}
+
+model Tecnologias {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  nível    Nível
+  principal Boolean @default(false)
+
+  projeto ProjetosTecnologias[]
+
+  @@map("Tecnologias")
+}
+
+model ProjetosTecnologias {
+  projetoId    Int
+  tecnologiaId Int
+
+  projeto    Projetos    @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  tecnologia Tecnologias @relation(fields: [tecnologiaId], references: [id], onDelete: Cascade)
+
+  @@id([projetoId, tecnologiaId])
+  @@map("ProjetosTecnologias")
 }
 
 enum ItemType {
@@ -212,4 +248,10 @@ enum Classificacao {
   CriseNivel1
   CriseNivel2
   Catástofre
+}
+
+enum Nível {
+  Iniciante
+  Intermediário
+  Avançado
 }
