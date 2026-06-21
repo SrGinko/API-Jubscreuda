@@ -7,13 +7,22 @@ export class ProjetcProvider {
     constructor(private prisma: PrismaProvider) { }
 
     async obterTodos(): Promise<Projetos[]> {
-        return this.prisma.projetos.findMany()
+        return this.prisma.projetos.findMany({
+            include: {
+                imagens: true,
+                tecnologia: true
+            }
+        })
     }
 
     async obterUnico(id: number): Promise<Projetos | null> {
         const projetosCreated = await this.prisma.projetos.findUnique({
             where: {
                 id: id
+            },
+            include: {
+                imagens: true,
+                tecnologia: true
             }
         })
 
