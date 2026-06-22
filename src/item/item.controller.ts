@@ -3,6 +3,7 @@ import { ItemProvider } from './item.provider';
 import { Item } from '@prisma/client';
 import { APIKey } from '../guards/APIKey';
 import { UseGuards } from '@nestjs/common';
+import { get } from 'node_modules/axios/index.cjs';
 
 @UseGuards(APIKey)
 @Controller('itens')
@@ -17,6 +18,11 @@ export class ItemController {
     @Get(':id')
     async obterUnico(@Param('id', ParseIntPipe) id: number) {
         return this.repo.obterUnico(id);
+    }
+
+    @Get('tipo/:tipo')
+    async obterPorTipo(@Param('tipo') tipo: string) {
+        return this.repo.obterPorTipo(tipo as any);
     }
 
     @Post()

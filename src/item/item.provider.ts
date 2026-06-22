@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaProvider } from '../db/prisma.provider';
-import { Item, Prisma } from '@prisma/client';
+import { Item, ItemType, Prisma } from '@prisma/client';
 
 @Injectable()
 export class ItemProvider {
@@ -16,6 +16,14 @@ export class ItemProvider {
                 id: id
             },
         });
+    }
+
+    async obterPorTipo(tipo: ItemType) {
+        return this.prisma.item.findMany({
+            where: {
+                tipo: tipo
+            }
+        })
     }
 
     async Criar(item: Prisma.ItemCreateInput): Promise<Item> {

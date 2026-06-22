@@ -10,4 +10,7 @@ export interface Itens {
   ataque?: number;
   defesa?: number;
   heal?: number;
+  chanceStatus?: number;
+  statusNome?:string;
+  mana?: number;
 }
