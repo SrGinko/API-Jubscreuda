@@ -92,6 +92,9 @@ model Item {
   defesa    Int?
   heal      Int?
   imagem    String?
+  chanceStatus Int?
+  statusNome String?
+  mana      Int?
 
   armaEquipada     Heroi[] @relation("ArmaEquipada")
   armaduraEquipada Heroi[] @relation("AramaduraEquipada")
@@ -232,6 +235,7 @@ enum ItemType {
   CALCA
   ARMA
   CONSUMIVEL
+  MAGIA
   OUTRO
 }
 
