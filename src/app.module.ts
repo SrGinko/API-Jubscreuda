@@ -11,6 +11,7 @@ import { BaseCanaisModule } from './canais/baseCanais.module';
 import { ChamadosModule } from './chamadoWb/chamado.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjetosModule } from './projetos/projetos.module';
+import { SerieModule } from './serie/serie.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ProjetosModule } from './projetos/projetos.module';
     BaseCanaisModule,
     ChamadosModule,
     AuthModule,
-    ProjetosModule
+    ProjetosModule,
+    SerieModule
   ],
 })
 export class AppModule { }

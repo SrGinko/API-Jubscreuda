@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { APIKey } from "src/guards/APIKey";
+import { APIKey } from "../guards/APIKey";
 import { SerieProvider } from "./serie.provider";
 
 @UseGuards(APIKey)
-@Controller('serie')
+@Controller('tv/serie')
 export class SerieController {
     constructor(private readonly serie: SerieProvider) {}
 
