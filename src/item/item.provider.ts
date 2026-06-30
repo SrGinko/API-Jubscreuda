@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaProvider } from '../db/prisma.provider';
-import { Item, ItemType, Prisma } from '@prisma/client';
+import { Item, ItemType, Prisma, Raridade } from '@prisma/client';
 
 @Injectable()
 export class ItemProvider {
@@ -18,10 +18,10 @@ export class ItemProvider {
         });
     }
 
-    async obterPorTipo(tipo: ItemType) {
+    async obterPorTipo(raridade: Raridade) {
         return this.prisma.item.findMany({
             where: {
-                tipo: tipo
+                raridade: raridade
             }
         })
     }

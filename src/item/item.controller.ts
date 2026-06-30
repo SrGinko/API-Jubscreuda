@@ -20,9 +20,9 @@ export class ItemController {
         return this.repo.obterUnico(id);
     }
 
-    @Get('tipo/:tipo')
-    async obterPorTipo(@Param('tipo') tipo: string) {
-        return this.repo.obterPorTipo(tipo as any);
+    @Get('raridade/:raridade')
+    async obterPorTipo(@Param('tipo') raridade: string) {
+        return this.repo.obterPorTipo(raridade as any);
     }
 
     @Post()

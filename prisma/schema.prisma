@@ -134,7 +134,7 @@ model BaseCanalUrl {
 }
 
 model Serie {
-  id           Int      @id
+  id           Int      @id @unique
   capaUrl      String?
   titulo       String
   baseUrl      String
@@ -149,7 +149,7 @@ model Serie {
 model Temporada {
   id      String @id @default(cuid())
   numero  Int
-  serieId Int    @unique
+  serieId Int 
 
   serie     Serie      @relation(fields: [serieId], references: [id], onDelete: Cascade)
   episodios Episodio[]
