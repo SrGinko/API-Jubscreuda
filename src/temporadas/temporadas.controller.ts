@@ -12,12 +12,7 @@ export class TemporadasController {
     async obterTodos(@Param('serieId') serieId: number){
         return this.temporada.obterTodos(serieId);
     }
-
-    @Get(':serieId')
-    async obterUnico(@Param('serieId')serieId: number){
-        return this.temporada.obterUnico(serieId);
-    }
-
+    
     @Post()
     async Criar(@Body() temporada: Temporada): Promise<Temporada>{
         return this.temporada.Criar(temporada)
