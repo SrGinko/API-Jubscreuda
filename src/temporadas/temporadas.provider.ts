@@ -17,17 +17,6 @@ export class TemporadasProvider {
         })
     }
 
-    async obterUnico(serieId: number): Promise<Temporada | null> {
-        return this.prisma.temporada.findUnique({
-            where: {
-                serieId
-            },
-            include: {
-                episodios: true
-            }
-        })
-    }
-
     async Criar(temporada: Temporada): Promise<Temporada>{
         return this.prisma.temporada.create({
             data: temporada
